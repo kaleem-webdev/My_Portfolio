@@ -5,6 +5,7 @@ import "./globals.css";
 
 // Fonts are self-hosted (src/app/fonts) so the site builds offline and makes
 // no third-party requests. Geist / Instrument Serif are open-source (OFL).
+
 const geistSans = localFont({
   src: "./fonts/Geist.woff2",
   variable: "--font-geist-sans",
@@ -21,8 +22,16 @@ const geistMono = localFont({
 
 const display = localFont({
   src: [
-    { path: "./fonts/InstrumentSerif-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/InstrumentSerif-Italic.woff2", weight: "400", style: "italic" },
+    {
+      path: "./fonts/InstrumentSerif-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/InstrumentSerif-Italic.woff2",
+      weight: "400",
+      style: "italic",
+    },
   ],
   variable: "--font-display",
   display: "swap",
@@ -32,6 +41,12 @@ const title = `${site.name} | ${site.title}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
+
+  // Google Search Console verification
+  verification: {
+    google: "ZHTDSNTGEb6G09qeXL-UMxukxSkUfES4NjLpLjRtkWQ",
+  },
+
   title: {
     default: title,
     template: `%s | ${site.name}`,
@@ -74,7 +89,9 @@ export const viewport: Viewport = {
   themeColor: "#faf8f5",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: LayoutProps<"/">) {
   return (
     <html
       lang="en"
