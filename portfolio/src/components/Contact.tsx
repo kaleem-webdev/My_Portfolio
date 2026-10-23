@@ -42,7 +42,7 @@ const items = [
     : []),
 ];
 
-export function Contact() {
+export function Contact({ level = 2 }: { level?: 1 | 2 } = {}) {
   return (
     <section
       id="contact"
@@ -50,6 +50,7 @@ export function Contact() {
     >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          level={level}
           eyebrow="Contact"
           title={
             <>
@@ -62,7 +63,7 @@ export function Contact() {
         </SectionHeading>
 
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <Reveal className="min-w-0">
+          <Reveal variant="left" className="min-w-0">
             <ul className="space-y-3">
               {items.map((it) => (
                 <li key={it.label}>
@@ -90,7 +91,7 @@ export function Contact() {
             </ul>
           </Reveal>
 
-          <Reveal delay={100} className="min-w-0">
+          <Reveal variant="right" delay={100} className="min-w-0">
             <div className="rounded-3xl border border-line bg-background p-6 sm:p-8">
               <ContactForm />
             </div>

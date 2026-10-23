@@ -1,11 +1,12 @@
+import Link from "next/link";
 import { contact, navLinks, site } from "@/data/site";
-import { GithubIcon, LinkedinIcon } from "./ui";
+import { GithubIcon, LinkedinIcon, Reveal } from "./ui";
 import { Year } from "./Year";
 
 export function Footer() {
   return (
     <footer className="bg-foreground px-5 py-12 text-white sm:px-8">
-      <div className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
+      <Reveal className="mx-auto flex max-w-6xl flex-col gap-10 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="font-display text-3xl">
             {site.name}
@@ -18,9 +19,9 @@ export function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70">
             {navLinks.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="transition hover:text-[#f76707]">
+                <Link href={l.href} className="transition hover:text-[#f76707]">
                   {l.label}
-                </a>
+                </Link>
               </li>
             ))}
             <li>
@@ -49,7 +50,7 @@ export function Footer() {
             )}
           </ul>
         </nav>
-      </div>
+      </Reveal>
       <div className="mx-auto mt-10 max-w-6xl border-t border-white/10 pt-6 text-sm text-white/50">
         © <Year /> {site.name}. All rights reserved.
       </div>

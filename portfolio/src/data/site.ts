@@ -8,9 +8,13 @@
 export const site = {
   name: "Kaleem Ullah",
   title: "Full-Stack Web Developer",
-  // Used for metadata / sitemap / social cards. Set NEXT_PUBLIC_SITE_URL in
-  // your hosting dashboard (or a .env.local file) once you have a domain.
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  // The ONE public address of the site. It feeds canonical tags, the sitemap,
+  // robots.txt and social cards. If you move to a custom domain, set
+  // NEXT_PUBLIC_SITE_URL (e.g. https://kaleemullah.dev) in Vercel and redeploy.
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://kaleemwebdev.vercel.app").replace(/\/+$/, ""),
+  // Update this date whenever you change real content. It is published as
+  // <lastmod> in sitemap.xml (kept fixed so builds stay deterministic).
+  lastUpdated: "2026-10-24",
   description:
     "Kaleem Ullah is a Full-Stack Web Developer specialising in PHP and Laravel, with frontend experience in React.js and Next.js. Available for web development projects.",
   // "Approximately 2 years" as you stated. Your CV dates (Jan 2025 onward) add
@@ -52,13 +56,15 @@ export const portrait = {
   height: 1000,
 };
 
+/** One entry per page. Drives the navbar, footer, sitemap and breadcrumbs. */
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Skills", href: "/skills" },
+  { label: "Projects", href: "/projects" },
+  { label: "Experience", href: "/experience" },
+  { label: "Services", href: "/services" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export const about = {
@@ -202,10 +208,21 @@ export const projects: Project[] = [
     thumb: "web",
     image: "/images/projects/smart-fixora.webp",
     // Add the live URL here to enable the Live Demo button.
-    liveUrl: "https://smartfixora.com/",
+    liveUrl: "",
     sourceUrl: "",
     placeholder: false,
   },
+  {
+  title: "Wazeer Ahmad Carpentry",
+  description:
+    "Website for a Sharjah carpentry business that supplies, buys, sells and custom-makes wooden pallets for commercial and industrial customers, with call and WhatsApp buttons.",
+  tags: ["Business website", "Responsive design"],
+  thumb: "web",
+  image: "/images/projects/wazeer-carpentry.webp",
+  liveUrl: "https://wazeercarpentry.com/",
+  sourceUrl: "",
+  placeholder: false,
+},
 ];
 
 /**
@@ -290,3 +307,40 @@ export const services = [
       "WordPress sites set up, customised and optimised for search, with hosting and domain support.",
   },
 ] as const;
+
+/**
+ * Stats are calculated from the data above, so they can never drift from the
+ * rest of the site and nothing here is invented. Add `extra` entries only for
+ * numbers you can prove.
+ */
+const skillCount = skillGroups.reduce((n, g) => n + g.items.length, 0);
+export const stats = [
+  {
+    value: 2,
+    prefix: "~",
+    suffix: "",
+    label: "Years of experience",
+    note: "Web development since 2025",
+  },
+  {
+    value: 25,
+    prefix: "",
+    suffix: "",
+    label: "Websites delivered",
+    note: "Shown on the Projects page",
+  },
+  {
+    value: experience.length,
+    prefix: "",
+    suffix: "",
+    label: "Companies worked with",
+    note: "Internship to full-time roles",
+  },
+  {
+    value: skillCount,
+    prefix: "",
+    suffix: "+",
+    label: "Technologies & tools",
+    note: "Backend, frontend, database, tooling",
+  },
+];

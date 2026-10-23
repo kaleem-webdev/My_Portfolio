@@ -1,7 +1,7 @@
 import { experience, site } from "@/data/site";
 import { Reveal, SectionHeading } from "./ui";
 
-export function Experience() {
+export function Experience({ level = 2 }: { level?: 1 | 2 } = {}) {
   return (
     <section
       id="experience"
@@ -9,6 +9,7 @@ export function Experience() {
     >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          level={level}
           eyebrow="Experience"
           title={
             <>
@@ -21,9 +22,16 @@ export function Experience() {
           live client projects.
         </SectionHeading>
 
-        <ol className="relative space-y-6 border-l border-line pl-6 sm:pl-10">
+        <div className="relative">
+          <Reveal
+            variant="draw"
+            className="absolute bottom-0 left-0 top-0 w-px bg-line"
+          >
+            {null}
+          </Reveal>
+          <ol className="relative space-y-6 pl-6 sm:pl-10">
           {experience.map((job, i) => (
-            <Reveal as="li" key={job.company} delay={i * 80}>
+            <Reveal as="li" key={job.company} variant="left" delay={i * 80}>
               <span
                 aria-hidden
                 className="absolute -left-[7px] mt-2 size-3.5 rounded-full border-2 border-accent bg-surface"
@@ -53,6 +61,7 @@ export function Experience() {
             </Reveal>
           ))}
         </ol>
+        </div>
       </div>
     </section>
   );

@@ -13,6 +13,7 @@ import {
   Wrench,
   type LucideProps,
 } from "lucide-react";
+import { AnimatedHeading } from "./AnimatedHeading";
 
 /** Fades/slides children in once they scroll into view. */
 export function Reveal({
@@ -20,11 +21,14 @@ export function Reveal({
   delay = 0,
   className = "",
   as: Tag = "div",
+  variant = "up",
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   as?: "div" | "li" | "article";
+  /** How the element enters: slides up (default), from a side, scales, un-blurs, or draws down. */
+  variant?: "up" | "left" | "right" | "scale" | "blur" | "draw";
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -52,6 +56,7 @@ export function Reveal({
     <Tag
       ref={ref as never}
       className={`reveal ${className}`}
+      data-variant={variant === "up" ? undefined : variant}
       style={{ "--reveal-delay": `${delay}ms` } as React.CSSProperties}
     >
       {children}
@@ -63,20 +68,26 @@ export function SectionHeading({
   eyebrow,
   title,
   children,
+  level = 2,
 }: {
   eyebrow: string;
   title: ReactNode;
   children?: ReactNode;
+  /** 1 when the section is the main content of its own page, otherwise 2. */
+  level?: 1 | 2;
 }) {
   return (
     <Reveal className="mb-12 max-w-2xl md:mb-16">
       <p className="mb-4 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] text-accent">
-        <span aria-hidden className="h-px w-8 bg-accent" />
+        <span aria-hidden className="eyebrow-line h-px w-8 bg-accent" />
         {eyebrow}
       </p>
-      <h2 className="font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl">
+      <AnimatedHeading
+        as={level === 1 ? "h1" : "h2"}
+        className="font-display text-4xl leading-[1.05] tracking-tight sm:text-5xl"
+      >
         {title}
-      </h2>
+      </AnimatedHeading>
       {children && (
         <p className="mt-5 text-base leading-relaxed text-muted sm:text-lg">
           {children}

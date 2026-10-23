@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { contact, projects, type Project } from "@/data/site";
 import { GithubIcon, Reveal, SectionHeading } from "./ui";
@@ -106,12 +107,21 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   );
 }
 
-export function Projects() {
+export function Projects({
+  level = 2,
+  limit,
+}: {
+  level?: 1 | 2;
+  /** Show only the first N projects and a "View all" link (used on Home). */
+  limit?: number;
+} = {}) {
+  const list = limit ? projects.slice(0, limit) : projects;
   const hasPlaceholders = projects.some((p) => p.placeholder);
   return (
     <section id="projects" className="px-5 py-20 sm:px-8 md:py-28">
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          level={level}
           eyebrow="Featured projects"
           title={
             <>
@@ -125,22 +135,36 @@ export function Projects() {
         </SectionHeading>
 
         <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          {projects.map((p, i) => (
+          {list.map((p, i) => (
             <ProjectCard key={p.title} p={p} index={i} />
           ))}
         </div>
 
         <Reveal className="mt-10 text-center">
-          <a
-            href={contact.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-muted transition hover:text-accent"
-          >
-            <GithubIcon width={18} height={18} />
-            More on GitHub
-            <ArrowUpRight size={16} aria-hidden />
-          </a>
+          {limit ? (
+            <Link
+              href="/projects"
+              className="group inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-surface px-6 py-3.5 font-medium transition hover:border-accent hover:text-accent"
+            >
+              View all projects
+              <ArrowUpRight
+                size={16}
+                aria-hidden
+                className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+          ) : (
+            <a
+              href={contact.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-muted transition hover:text-accent"
+            >
+              <GithubIcon width={18} height={18} />
+              More on GitHub
+              <ArrowUpRight size={16} aria-hidden />
+            </a>
+          )}
         </Reveal>
       </div>
     </section>

@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Download, MapPin } from "lucide-react";
 import { contact, cvPath, portrait, site } from "@/data/site";
-import { GithubIcon, LinkedinIcon } from "./ui";
+import { AnimatedHeading } from "./AnimatedHeading";
+import { GithubIcon, LinkedinIcon, Reveal } from "./ui";
 
 function CodeCard() {
   // Decorative illustration only: a generic Laravel snippet, not project code.
@@ -46,7 +48,7 @@ function CodeCard() {
 export function Hero() {
   return (
     <section
-      id="home"
+      aria-label="Introduction"
       className="relative overflow-hidden px-5 pb-20 pt-28 sm:px-8 md:pb-28 md:pt-36"
     >
       {/* subtle dot grid */}
@@ -57,6 +59,7 @@ export function Hero() {
 
       <div className="mx-auto grid max-w-6xl items-center gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
         <div>
+          <Reveal variant="blur">
           <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-sm text-muted">
             <span
               aria-hidden
@@ -64,12 +67,18 @@ export function Hero() {
             />
             {site.name} · {site.title}
           </p>
+          </Reveal>
 
-          <h1 className="font-display text-[2.9rem] leading-[0.98] tracking-tight sm:text-6xl md:text-7xl">
+          <AnimatedHeading
+            as="h1"
+            baseDelay={150}
+            className="font-display text-[2.9rem] leading-[0.98] tracking-tight sm:text-6xl md:text-7xl"
+          >
             Building <em className="text-accent">Modern,</em> Scalable Web
             Experiences.
-          </h1>
+          </AnimatedHeading>
 
+          <Reveal delay={550}>
           <p className="mt-7 max-w-xl text-lg leading-relaxed text-muted">
             I&apos;m <strong className="font-semibold text-foreground">{site.name}</strong>
             , a Full-Stack Web Developer with approximately{" "}
@@ -78,10 +87,12 @@ export function Hero() {
             I also build responsive, polished frontends with HTML, CSS,
             JavaScript, React.js and Next.js.
           </p>
+          </Reveal>
 
+          <Reveal delay={700}>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a
-              href="#projects"
+            <Link
+              href="/projects"
               className="group inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3.5 font-medium text-white transition hover:bg-accent"
             >
               View My Projects
@@ -90,13 +101,13 @@ export function Hero() {
                 aria-hidden
                 className="transition-transform group-hover:translate-x-1"
               />
-            </a>
-            <a
-              href="#contact"
+            </Link>
+            <Link
+              href="/contact"
               className="inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-surface px-6 py-3.5 font-medium transition hover:border-accent hover:text-accent"
             >
               Contact Me
-            </a>
+            </Link>
             <a
               href={cvPath}
               download
@@ -106,7 +117,9 @@ export function Hero() {
               Download CV
             </a>
           </div>
+          </Reveal>
 
+          <Reveal delay={850}>
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted">
             <a
               href={contact.github}
@@ -133,10 +146,11 @@ export function Hero() {
               Lahore, Pakistan
             </span>
           </div>
+          </Reveal>
         </div>
 
         {/* Portrait */}
-        <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
+        <Reveal variant="scale" delay={250} className="relative mx-auto w-full max-w-sm lg:max-w-none">
           <div className="relative mx-auto aspect-[4/5] w-full max-w-[22rem] lg:max-w-[26rem]">
             <div
               aria-hidden
@@ -153,19 +167,19 @@ export function Hero() {
                 className="h-full w-full object-cover object-top"
               />
             </div>
-            <div className="absolute -bottom-8 -left-6 sm:-left-12">
+            <Reveal variant="left" delay={1000} className="absolute -bottom-8 -left-6 sm:-left-12">
               <CodeCard />
-            </div>
-            <div className="absolute -right-3 top-8 rounded-2xl border border-line bg-surface px-4 py-3 shadow-lg shadow-black/5 sm:-right-8">
+            </Reveal>
+            <Reveal variant="right" delay={1200} className="absolute -right-3 top-8 rounded-2xl border border-line bg-surface px-4 py-3 shadow-lg shadow-black/5 sm:-right-8">
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
                 Focus
               </p>
               <p className="font-display text-xl leading-tight">
                 Laravel <span className="text-accent">&amp;</span> PHP
               </p>
-            </div>
+            </Reveal>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

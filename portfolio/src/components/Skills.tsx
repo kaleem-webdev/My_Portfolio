@@ -1,7 +1,7 @@
 import { skillGroups } from "@/data/site";
 import { Icon, Reveal, SectionHeading } from "./ui";
 
-export function Skills() {
+export function Skills({ level = 2 }: { level?: 1 | 2 } = {}) {
   return (
     <section
       id="skills"
@@ -9,6 +9,7 @@ export function Skills() {
     >
       <div className="mx-auto max-w-6xl">
         <SectionHeading
+          level={level}
           eyebrow="Technical skills"
           title={
             <>
@@ -22,7 +23,7 @@ export function Skills() {
 
         <div className="grid gap-5 md:grid-cols-2">
           {skillGroups.map((g, i) => (
-            <Reveal key={g.title} delay={i * 70}>
+            <Reveal key={g.title} variant={i % 2 === 0 ? "left" : "right"} delay={(i % 2) * 80}>
               <div className="group h-full rounded-3xl border border-line bg-background p-7 transition duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-xl hover:shadow-black/5">
                 <div className="mb-6 flex items-center gap-3">
                   <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-accent-soft text-accent transition group-hover:bg-accent group-hover:text-white">

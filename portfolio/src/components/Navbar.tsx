@@ -1,37 +1,21 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Download, Menu, X } from "lucide-react";
 import { cvPath, navLinks, site } from "@/data/site";
 
 export function Navbar() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("#home");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Highlight the link for the section currently in view.
-  useEffect(() => {
-    const ids = navLinks.map((l) => l.href.slice(1));
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(`#${e.target.id}`);
-        });
-      },
-      { rootMargin: "-45% 0px -50% 0px" },
-    );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) io.observe(el);
-    });
-    return () => io.disconnect();
   }, []);
 
   // Close the mobile menu with Escape and lock page scroll while open.
@@ -46,9 +30,12 @@ export function Navbar() {
     };
   }, [open]);
 
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`nav-in fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled || open
           ? "border-b border-line bg-background/85 backdrop-blur-md"
           : "border-b border-transparent"
@@ -58,29 +45,27 @@ export function Navbar() {
         aria-label="Main"
         className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
       >
-        <a
-          href="#home"
+        <Link
+          href="/"
           className="font-display text-2xl tracking-tight"
           onClick={() => setOpen(false)}
         >
           {site.name}
           <span className="text-accent">.</span>
-        </a>
+        </Link>
 
-        <ul className="hidden items-center gap-1 lg:flex">
+        <ul className="hidden items-center gap-0.5 lg:flex">
           {navLinks.map((l) => (
             <li key={l.href}>
-              <a
+              <Link
                 href={l.href}
-                aria-current={active === l.href ? "true" : undefined}
-                className={`rounded-full px-3.5 py-2 text-sm transition-colors hover:text-foreground ${
-                  active === l.href
-                    ? "bg-accent-soft text-accent"
-                    : "text-muted"
+                aria-current={isActive(l.href) ? "page" : undefined}
+                className={`rounded-full px-3 py-2 text-sm transition-colors hover:text-foreground ${
+                  isActive(l.href) ? "bg-accent-soft text-accent" : "text-muted"
                 }`}
               >
                 {l.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -115,16 +100,19 @@ export function Navbar() {
           <ul className="flex flex-col">
             {navLinks.map((l) => (
               <li key={l.href} className="border-b border-line">
-                <a
+                <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between py-4 font-display text-3xl"
+                  aria-current={isActive(l.href) ? "page" : undefined}
+                  className={`flex items-center justify-between py-4 font-display text-3xl ${
+                    isActive(l.href) ? "text-accent" : ""
+                  }`}
                 >
                   {l.label}
                   <span className="text-accent" aria-hidden>
                     →
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
