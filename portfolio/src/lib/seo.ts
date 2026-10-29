@@ -20,8 +20,11 @@ export function pageMetadata({
   path: string;
 }): Metadata {
   const fullTitle = title ? `${title} | ${site.name}` : defaultTitle;
+  // Always use absolute URLs — never rely solely on metadataBase resolution
+  // so the canonical tag in the rendered HTML exactly matches the sitemap.
+  const canonicalUrl = absoluteUrl(path);
   const image = {
-    url: "/images/og.jpg",
+    url: absoluteUrl("/images/og.jpg"),
     width: 1200,
     height: 630,
     alt: `${site.name}, ${site.title}`,
@@ -29,10 +32,10 @@ export function pageMetadata({
   return {
     title: title ?? { absolute: defaultTitle },
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       type: "website",
-      url: path,
+      url: canonicalUrl,
       title: fullTitle,
       description,
       siteName: site.name,

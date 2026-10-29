@@ -13,23 +13,41 @@ export const metadata = pageMetadata({
 });
 
 export default function Home() {
+  const personId = `${absoluteUrl("/")}#person`;
   const person = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "@id": `${absoluteUrl("/")}#person`,
+    "@id": personId,
     name: site.name,
     jobTitle: site.title,
+    description: site.description,
     email: contact.email,
     url: absoluteUrl("/"),
-    image: `${site.url}/images/kaleem-portrait.jpg`,
+    image: absoluteUrl("/images/kaleem-portrait.jpg"),
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Lahore",
+      addressCountry: "PK",
+    },
+    knowsAbout: [
+      "PHP",
+      "Laravel",
+      "MySQL",
+      "REST APIs",
+      "React",
+      "Next.js",
+      "Full-Stack Web Development",
+    ],
     sameAs: [contact.github, contact.linkedin].filter(Boolean),
   };
   const website = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: `${site.name} | ${site.title}`,
+    description: site.description,
     url: absoluteUrl("/"),
-    author: { "@id": `${absoluteUrl("/")}#person` },
+    inLanguage: "en-US",
+    author: { "@id": personId },
   };
 
   return (
